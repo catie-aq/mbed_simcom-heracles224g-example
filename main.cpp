@@ -16,23 +16,28 @@
  */
 #include "mbed.h"
 
-using namespace sixtron;
-
-namespace {
-#define PERIOD_MS 1000
-}
-
-static DigitalOut led1(LED1);
-
-// main() runs in its own thread in the OS
-// (note the calls to ThisThread::sleep_for below for delays)
 int main()
 {
-    while (true) {
-        led1 = !led1;
-        if (led1) {
-            printf("Alive!\n");
-        }
-        ThisThread::sleep_for(PERIOD_MS / 2);
+    printf("Cellular example\n");
+
+    NetworkInterface *net = NetworkInterface::get_default_instance();
+    if (!net) {
+        printf("Error! No network inteface found.\n");
+        return -1;
     }
+
+    // TODO: Register the network status handler, and implement reconnection logic.
+
+    int connect_err = net->connect();
+    if (connect_err) {
+        printf("Connection error: %d\n", connect_err);
+        return -1;
+    }
+
+    SocketAddress a;
+    net->get_ip_address(&a);
+    printf("IP: %s\n", a.get_ip_address());
+
+    net->disconnect();
+    printf("Done\n");
 }

@@ -1,0 +1,17 @@
+{
+    "target_overrides": {
+        "*": {
+            "target.network-default-interface-type": "CELLULAR",
+            "nsapi.default-cellular-sim-pin": null,
+            "nsapi.default-cellular-plmn": null,
+            "nsapi.default-cellular-apn": "\"wsiot\"",
+            "nsapi.default-cellular-username": null,
+            "nsapi.default-cellular-password": null,
+            "heracles224g.provide-default" : true
+        },
+        "ZEST_CORE_STM32L4A6RG": {
+            "heracles224g.tx" : "PC_10_ALT0",
+            "heracles224g.rx" : "PC_11_ALT0"
+        }
+    }
+}
