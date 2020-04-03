@@ -15,7 +15,7 @@ by `mbed deploy` or `mbed import`):
 To clone **and** deploy the project in one command, use `mbed import` and skip to the
 target and toolchain definition:
 ```shell
-mbed import https://gitlab.com/catie_6tron/simcom-heracles-224g-example.git simcom-heracles-224g-example
+mbed import https://gitlab.com/catie_6tron/simcom-heracles224g-example.git simcom-heracles224g-example
 ```
 
 Define your target (eg. `ZEST_CORE_STM32L4A6RG`) and toolchain:
