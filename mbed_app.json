@@ -2,6 +2,10 @@
     "target_overrides": {
         "*": {
             "target.network-default-interface-type": "CELLULAR",
+            "lwip.ppp-enabled": true,
+            "lwip.ipv4-enabled": true,
+            "lwip.ipv6-enabled": true,
+            "lwip.tcp-enabled": true,
             "nsapi.default-cellular-sim-pin": null,
             "nsapi.default-cellular-plmn": null,
             "nsapi.default-cellular-apn": "\"wsiot\"",
