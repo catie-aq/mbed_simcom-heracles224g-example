@@ -15,6 +15,8 @@
         "ZEST_CORE_STM32L4A6RG": {
             "SIMCOM_HERACLES224G.tx" : "UART1_TX",
             "SIMCOM_HERACLES224G.rx" : "UART1_RX",
+            "SIMCOM_HERACLES224G.pwr": "DIO2",
+            "SIMCOM_HERACLES224G.status": "DIO7",
             "SIMCOM_HERACLES224G.provide-default" : true
         }
     }
