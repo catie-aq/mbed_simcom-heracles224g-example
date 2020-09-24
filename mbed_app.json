@@ -13,8 +13,8 @@
             "nsapi.default-cellular-password": null
         },
         "ZEST_CORE_STM32L4A6RG": {
-            "SIMCOM_HERACLES224G.tx" : "PC_10_ALT0",
-            "SIMCOM_HERACLES224G.rx" : "PC_11_ALT0",
+            "SIMCOM_HERACLES224G.tx" : "UART1_TX",
+            "SIMCOM_HERACLES224G.rx" : "UART1_RX",
             "SIMCOM_HERACLES224G.provide-default" : true
         }
     }
