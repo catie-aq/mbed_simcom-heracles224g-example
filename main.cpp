@@ -24,7 +24,6 @@ namespace {
 
 NetworkInterface *iface;
 
-
 /**
  * Connects to the Cellular Network
  */
@@ -33,16 +32,17 @@ nsapi_error_t do_connect()
     nsapi_error_t retcode = NSAPI_ERROR_OK;
     uint8_t retry_counter = 0;
 
+    printf("connecting...\n");
     while (iface->get_connection_status() != NSAPI_STATUS_GLOBAL_UP) {
         retcode = iface->connect();
         if (retcode == NSAPI_ERROR_AUTH_FAILURE) {
-            printf("\n\nAuthentication Failure. Exiting application\n");
+            printf("Authentication Failure. Exiting application\n");
         } else if (retcode == NSAPI_ERROR_OK) {
-        	printf("\n\nConnection Established.\n");
+        	printf("Connection Established.\n");
         } else if (retry_counter > RETRY_COUNT) {
-        	printf("\n\nFatal connection failure: %d\n", retcode);
+        	printf("Fatal connection failure: %d\n", retcode);
         } else {
-        	printf("\n\nCouldn't connect: %d, will retry\n", retcode);
+        	printf("Couldn't connect: %d, will retry\n", retcode);
             retry_counter++;
             continue;
         }
@@ -53,7 +53,7 @@ nsapi_error_t do_connect()
 
 int main()
 {
-    printf("Cellular example\n");
+    printf("SIMCOM Heracles224G Cellular example\n");
 
     iface = NetworkInterface::get_default_instance();
 
@@ -70,8 +70,10 @@ int main()
 	}
 
     if (iface->disconnect() != NSAPI_ERROR_OK) {
-		printf("\n\n disconnect failed.\n\n");
+		printf("disconnect failed.\n");
+		return -1;
 	}
+    printf("disconnected\n.");
 
     // TODO: turn the GSM module off
 
