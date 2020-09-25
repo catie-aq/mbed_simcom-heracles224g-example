@@ -15,29 +15,66 @@
  * limitations under the License.
  */
 #include "mbed.h"
+#include "common_functions.h"
+#include "CellularDevice.h"
+
+namespace {
+#define RETRY_COUNT 3
+}
+
+NetworkInterface *iface;
+
+/**
+ * Connects to the Cellular Network
+ */
+nsapi_error_t do_connect()
+{
+    nsapi_error_t retcode = NSAPI_ERROR_OK;
+    uint8_t retry_counter = 0;
+
+    printf("connecting...\n");
+    while (iface->get_connection_status() != NSAPI_STATUS_GLOBAL_UP) {
+        retcode = iface->connect();
+        if (retcode == NSAPI_ERROR_AUTH_FAILURE) {
+            printf("Authentication Failure. Exiting application\n");
+        } else if (retcode == NSAPI_ERROR_OK) {
+        	printf("Connection Established.\n");
+        } else if (retry_counter > RETRY_COUNT) {
+        	printf("Fatal connection failure: %d\n", retcode);
+        } else {
+        	printf("Couldn't connect: %d, will retry\n", retcode);
+            retry_counter++;
+            continue;
+        }
+        break;
+    }
+    return retcode;
+}
 
 int main()
 {
-    printf("Cellular example\n");
+    printf("SIMCOM Heracles224G Cellular example\n");
 
-    NetworkInterface *net = NetworkInterface::get_default_instance();
-    if (!net) {
-        printf("Error! No network inteface found.\n");
-        return -1;
-    }
+    iface = NetworkInterface::get_default_instance();
 
-    // TODO: Register the network status handler, and implement reconnection logic.
+    MBED_ASSERT(iface);
 
-    int connect_err = net->connect();
-    if (connect_err) {
-        printf("Connection error: %d\n", connect_err);
-        return -1;
-    }
+    // set cellular default parameters
+    iface->set_default_parameters();
 
-    SocketAddress a;
-    net->get_ip_address(&a);
-    printf("IP: %s\n", a.get_ip_address());
+    /* Attempt to connect to a cellular network */
+	if (do_connect() == NSAPI_ERROR_OK) {
+		SocketAddress a;
+		iface->get_ip_address(&a);
+		printf("IP: %s\n", a.get_ip_address());
+	}
 
-    net->disconnect();
-    printf("Done\n");
+    if (iface->disconnect() != NSAPI_ERROR_OK) {
+		printf("disconnect failed.\n");
+		return -1;
+	}
+    printf("disconnected\n.");
+
+    // TODO: turn the GSM module off
+
 }
